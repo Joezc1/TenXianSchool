@@ -17,7 +17,7 @@ module.exports = {
         //每次使用的时候需要创建链接，数据操作完成之后要关闭连接
         let sql = ""
         console.log(notice)
-        sql = 'select id,title,detail,createtime,updatetime,author,type,cover from notices where id = ' + notice.id + ' and title like "%' + notice.title + '%" ' + 'limit ' + x + ',' + y;
+        sql = 'select * from notices where id like "%' + notice.id + '%" and title like "%' + notice.title + '%" ' + 'limit ' + x + ',' + y;
         console.log('打印查询语句')
         console.log(sql)
         var connection = mysql.createConnection(data);
@@ -116,7 +116,7 @@ module.exports = {
     //根据id查询公告信息
     findById: function (id, params, callback) {
         //每次使用的时候需要创建链接，数据操作完成之后要关闭连接
-        let sql = `select id,title,detail,createtime,updatetime,author,type,cover from notices where id=${id}`
+        let sql = `select * from notices where id=${id}`
         var connection = mysql.createConnection(data);
         connection.connect(function (err) {
             if (err) {
@@ -146,7 +146,7 @@ module.exports = {
     insert: function (notice, params, callback) {
         //每次使用的时候需要创建链接，数据操作完成之后要关闭连接
         // let sql = `insert into notices(title,detail,createtime,author) values`
-        let sql = "insert into notices(title,detail,createtime,updatetime,author,type,cover) values('" + notice.title + "','" + notice.detail + "','" + notice.createtime + "','" + notice.updatetime + "','" + notice.author +  "','" + notice.type + "','" + notice.cover + "')"
+        let sql = "insert into notices(title,detail,createtime,updatetime,author,type,cover) values('" + notice.title + "','" + notice.detail + "','" + notice.createtime + "','" + notice.updatetime +"','" + notice.author +  "','" + notice.type + "','" + notice.cover + "')"
         console.log("打印操作结果")
         console.log(sql)
         var connection = mysql.createConnection(data);

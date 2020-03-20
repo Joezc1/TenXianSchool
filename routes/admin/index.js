@@ -1089,6 +1089,7 @@ module.exports = app => {
     // 用户列表
 
     router.post('/user/list', (req, res) => {
+        console.log("查询用户列表")
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
         userdb.find(req.body, x, y, [], (dbresult, fields) => {
@@ -1164,9 +1165,124 @@ module.exports = app => {
         })
     })
 
+    const adminuserdb = require("../../plugins/adminuserdb")
+    // 角色管理
+    // 角色登录
+    router.post('/admin/user/login', [], (req, res) => {
+        let user = req.body
+        adminuserdb.findByName(user.username, [], (result, error) => {
+            if (result[0]) {
+                console.log("打印登录用户")
+                console.log(user)
+                console.log(result[0])
+                if(user.password == result[0].password){
+                    console.log("用户已存在")
+                    // let jwt = new jwtUtil(user.name)
+                    let token = jwtUtil.generateToken(user.name)
+                    let data = {}
+                    data.userinfo = result[0]
+                    data.success = true
+                    data.msg = '登陆成功'
+                    data.token = token
+                    res.send(data)
+                }else{
+                    console.log("用户或密码错误")
+                    let data = {}
+                    data.success = false
+                    data.msg = '用户或密码错误'
+                    res.send(data)
+                }
+            } else {
+                console.log("用户不存在")
+                let data = {}
+                data.success = false
+                data.msg = "该账号不存在"
+                // 账号不存在
+                data.code = -2
+                res.send(data)
+            }
+        })
+    })
+    //角色管理，角色列表
+    router.post('/role/list', (req, res) => {
+        let x = (req.body.pageNo - 1) * req.body.pageSize
+        let y = req.body.pageSize
+        adminuserdb.find(req.body, x, y, [], (dbresult, fields) => {
+            adminuserdb.findCount('id', [], (result, fields) => {
+                let data = {}
+                let list = []
+                for (let index in result[0]) {
+                    list.push(result[0][index])
+                }
+                data.pageCount = list[0]
+                data.success = true
+                data.msg = '查询成功'
+                data.list = dbresult
+                data.pageNo = req.body.pageNo
+                data.pageSize = req.body.pageSize
+                res.send({ 'data': data })
+            })
+        })
+    })
+
+    //角色详情
+    router.post('/role/:id', [], (req, res) => {
+        adminuserdb.findById(req.params.id, [], (dbresult, fields) => {
+            let data = {}
+            data.success = true
+            data.msg = '查询成功',
+                data.data = dbresult[0]
+            res.send({ 'data': data })
+        })
+    })
+
+    //新建角色
+    router.post('/save/role', (req, res) => {
+        let notice = req.body
+        notice.createtime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        notice.updatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        console.log(notice)
+        console.log("打印notice")
+        adminuserdb.insert(notice, [], (dbresult, fields) => {
+            console.log("打印插入结果")
+            console.log(dbresult)
+            if (dbresult.affectedRows != 0) {
+                let data = {}
+                data.success = true
+                data.msg = "新建成功"
+                res.send({ 'data': data })
+            }
+        })
+    })
+    //删除角色
+    router.post('/delete/role/:id', [], (req, res) => {
+        adminuserdb.deleteById(req.params.id, [], (dbresult, fields) => {
+            if (dbresult.affectedRows != 0) {
+                let data = {}
+                data.success = true
+                data.msg = "删除成功"
+                res.send({ 'data': data })
+            }
+        })
+    })
+    //修改角色
+    router.post('/update/role/:id', [], (req, res) => {
+        req.body.updatetime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        adminuserdb.updateById(req.body, req.params.id, [], (dbresult, fields) => {
+            if (dbresult.affectedRows != 0) {
+                console.log(dbresult)
+                let data = {}
+                data.success = true
+                data.msg = "修改成功"
+                res.send({ 'data': data })
+            }
+
+        })
+    })
+
     //内容管理
     //公告管理，公告列表
-    router.post('/noticelist', (req, res) => {
+    router.post('/notice/list', (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
         noticesdb.find(req.body, x, y, [], (dbresult, fields) => {

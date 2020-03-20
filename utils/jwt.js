@@ -2,16 +2,10 @@
 const fs = require('fs');
 const path = require('path');
 const jwt = require('jsonwebtoken');
-// 创建 token 类
-class Jwt {
-    constructor(data) {
-        this.data = data;
-
-    }
-
+module.exports ={
     //生成token
-    generateToken() {
-        let data = this.data;
+    generateToken:(sdata)=> {
+        let data = sdata;
         let created = Math.floor(Date.now() / 1000);
         let cert = fs.readFileSync(path.join(__dirname, '../pem/private_key.pem'));//私钥 可以自己生成
         let token = jwt.sign({
@@ -19,11 +13,11 @@ class Jwt {
             exp: created + 60 * 30,
         }, cert, {algorithm: 'RS256'});
         return token;
-    }
+    },
 
     // 校验token
-    verifyToken() {
-        let token = this.data;
+    verifyToken:(sdata) => {
+        let token = sdata;
         let cert = fs.readFileSync(path.join(__dirname, '../pem/public_key.pem'));//公钥 可以自己生成
         let res;
         try {
@@ -39,4 +33,3 @@ class Jwt {
     }
 }
 
-module.exports = Jwt;
