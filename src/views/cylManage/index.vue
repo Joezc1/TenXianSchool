@@ -21,6 +21,9 @@ $gray: #d9d9d9;
   <div class="main">
     <div class="header">
       <el-row>
+        <el-col :span="2">
+          <el-button icon="el-icon-refresh" @click="getList"></el-button>
+        </el-col>
         <el-col :span="1">
           <span>id:</span>
         </el-col>
@@ -33,7 +36,7 @@ $gray: #d9d9d9;
         <el-col :span="2">
           <el-input v-model="reqData.title" placeholder="请输入标题"></el-input>
         </el-col>
-        <el-col :offset="11" :span="4">
+        <el-col :offset="9" :span="4">
           <el-button size="small" type="primary" @click.native.stop="restReqdata" plain>重置</el-button>
           <el-button size="small" type="primary" @click.native.stop="searchReqdata" plain>搜索</el-button>
           <el-button size="small" type="primary" @click.native.stop="newProject" plain>新建</el-button>

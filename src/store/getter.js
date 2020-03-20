@@ -3,8 +3,8 @@ const getters = {
     name: state => state.user.name,
     routes: state => state.admin.routes,
     tags: state => state.admin.tags,
-    menuindex: state => state.admin.menuindex
-
+    menuindex: state => state.admin.menuindex,
+    level: state => state.use.level
 }
 export default getters
   

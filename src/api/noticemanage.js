@@ -11,7 +11,7 @@ export function addNotice(data) {
 // 公告列表
 export function getNotices(data) {
   return request({
-    url: '/noticelist',
+    url: '/notice/list',
     method: 'post',
     data: data
   })

@@ -1,6 +1,29 @@
 <template>
   <div class="content-main">
-    
+        <div class="header">
+      <el-row>
+        <el-col :span="2">
+          <el-button icon="el-icon-refresh" @click="getList"></el-button>
+        </el-col>
+        <el-col :span="1">
+          <span>id:</span>
+        </el-col>
+        <el-col :span="2">
+          <el-input v-model="reqData.id" placeholder="请输入id"></el-input>
+        </el-col>
+        <el-col :offset="2" :span="2">
+          <span>标题:</span>
+        </el-col>
+        <el-col :span="2">
+          <el-input v-model="reqData.title" placeholder="请输入标题"></el-input>
+        </el-col>
+        <el-col :offset="9" :span="4">
+          <el-button size="small" type="primary" @click.native.stop="restReqdata" plain>重置</el-button>
+          <el-button size="small" type="primary" @click.native.stop="searchReqdata" plain>搜索</el-button>
+          <el-button size="small" type="primary" @click.native.stop="newProject" plain>新建</el-button>
+        </el-col>
+      </el-row>
+    </div>
     <div class="notice-table">
       <el-table :data="tableData" v-loading="loading" width="100%" size="medium">
         <el-table-column label="ID" width="100">
@@ -41,9 +64,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="reqData.pageNo"
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="100"
-        layout="sizes, prev, pager, next"
+        layout="prev, pager, next"
         :total="reqData.count"
       ></el-pagination>
     </div>
@@ -206,6 +227,7 @@ export default {
   methods: {
  
     // 上传图片封面
+      // 上传图片封面
     handleCoverSuccess(res, file) {
       console.log(res);
       console.log(file);
@@ -214,32 +236,22 @@ export default {
       console.log("上传成功,打印封面地址");
       console.log(this.ruleForm.cover);
     },
-  
-    // 上传之前
-    beforeUploadVideo(file) {
-      const isLt10M = file.size / 1024 / 1024 < 10;
-      if (
-        [
-          "video/mp4",
-          "video/ogg",
-          "video/flv",
-          "video/avi",
-          "video/wmv",
-          "video/rmvb"
-        ].indexOf(file.type) == -1
-      ) {
-        this.$message.error("请上传正确的视频格式");
-        return false;
+    // 上传图片之前
+    beforeUploadCover(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
       }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
       // if (!isLt10M) {
       //   this.$message.error("上传视频大小不能超过10MB哦!");
       //   return false;
       // }
-    },
-    // 进度条
-    uploadVideoProcess(event, file, fileList) {
-      this.videoFlag = true;
-      this.videoUploadPercent = file.percentage.toFixed(0);
     },
     // 重置表单
     clearForm() {
@@ -468,6 +480,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$blue: #409eff;
+$white: #f5f5f5;
+$gray: #d9d9d9;
+.header {
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px dashed $gray;
+  border-radius: 5px;
+  span {
+    line-height: 40px;
+    font-size: 17px;
+  }
+}
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;

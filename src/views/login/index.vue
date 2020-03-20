@@ -1,23 +1,7 @@
 <template>
   <div class="login-main">
-    <div class="login-header">
-      <el-row type="flex" class="row-bg" justify="end">
-        <el-col class="header-color clearfix" :span="3">
-          <div class="title">不喜欢这颜色?</div>
-          <el-color-picker
-            @change="changeColor"
-            show-alpha
-            v-model="color"
-            :predefine="predefineColors"
-          ></el-color-picker>
-        </el-col>
-        <el-col :span="1">
-          <el-button style="color: #666;" type="primary" plain @click="resetColor">重置</el-button>
-        </el-col>
-      </el-row>
-    </div>
     <div class="login-body" :style="bodystyle">
-      <h6 class="login-title">用户登录</h6>
+      <h5 class="login-title">藤县中学后台管理系统</h5>
       <el-form
         size="medium "
         :model="ruleForm"
@@ -26,21 +10,17 @@
         label-width="70px"
         class="demo-ruleForm"
       >
-        <el-form-item class="clearfix label" label="用户名" prop="name">
-          <el-input class="form-input" v-model="ruleForm.name"></el-input>
+        <el-form-item class="clearfix label" label="用户名" prop="username">
+          <el-input class="form-input" v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item class="clearfix label" label="密码" prop="password">
-          <el-input class="form-input" type="password" v-model="ruleForm.password"></el-input>
+          <el-input class="form-input" type="password" placeholder="请输入密码" v-model="ruleForm.password"></el-input>
         </el-form-item>
         <el-form-item class="btns">
           <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
           <el-button style="margin-right:56px;" @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
-      <div class="body-bottem clearfix">
-        <div class="bottem-left">注册</div>
-        <div class="bottem-right">忘记密码?</div>
-      </div>
     </div>
   </div>
 </template>
@@ -53,20 +33,20 @@ export default {
   data() {
     return {
       ruleForm: {
-        name: "",
+        username: "",
         password: ""
       },
       rules: {
-        name: [
+        username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+          { min: 5, max: 10, message: "长度在 3 到 5 个字符", trigger: "blur" }
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
           {
-            min: 3,
-            max: 5,
-            message: "长度在 3 到 5 个字母和数字",
+            min: 5,
+            max: 15,
+            message: "长度在 5 到 15 个字母和数字",
             trigger: "blur"
           }
         ]
@@ -97,9 +77,17 @@ export default {
           let list = [];
           localStorage.setItem("tags", JSON.stringify(list));
           sessionStorage.menuindex = "1-1";
-          this.$router.push({
-            name: 'survey_list'
+
+          this.$store.dispatch("Login", this.ruleForm).then(res => {
+            if (res) {
+              this.$router.push({
+                name: "cyl_list"
+              });
+            } else {
+              return false;
+            }
           });
+
         } else {
           console.log("error submit!!");
           return false;
@@ -194,7 +182,7 @@ body {
   height: 100%;
 }
 .login-main {
-  background: url("../../assets/img/backone.jpg") no-repeat;
+  background: url("../../assets/img/three.jpg") no-repeat;
   background-size: cover;
   padding: 20px;
   box-sizing: border-box;
@@ -207,7 +195,7 @@ body {
   margin: 0 auto;
   font-size: 23px;
   text-align: center;
-  margin-top: 12px;
+  margin-top: 30px;
   box-sizing: border-box;
 }
 .demo-ruleForm {
@@ -223,21 +211,22 @@ body {
 }
 .login-body {
   border-radius: 8px;
-  height: 260px;
-  width: 417px;
+  height: 300px;
+  width: 440px;
   margin: 0 auto;
+  background-image: linear-gradient(to bottom, #0A8F8F 0%, #DFFDFD 100%);
   position: absolute;
   top: 20%; /*偏移*/
   left: 50%;
   transform: translateY(-20%);
   transform: translateX(-50%);
-  box-shadow: 0 2px 12px 2px rgba(0, 0, 0, 0.3);
-  opacity: 0.9;
+  // box-shadow: 0 2px 12px 2px rgba(0, 0, 0, 0.3);
+  opacity: 0.8;
   font-size: 17px;
 }
-.login-body:hover {
-  box-shadow: 0 2px 12px 8px rgba(0, 0, 0, 0.7);
-}
+// .login-body:hover {
+//   box-shadow: 0 2px 12px 8px rgba(0, 0, 0, 0.7);
+// }
 .header-color {
   .title {
     float: left;

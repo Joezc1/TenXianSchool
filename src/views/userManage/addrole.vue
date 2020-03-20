@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <div class="header clearfix">
-      <div class="title">图书馆管理</div>
-      <el-button @click="getdetail" type="primary" size="small" plain>查看图书馆信息</el-button>
+      <div class="title">角色管理</div>
+      <el-button @click="getdetail" type="primary" size="small" plain>查看角色信息</el-button>
     </div>
     <el-form
       :model="ruleForm"
@@ -13,21 +13,33 @@
     >
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="图书馆标题" prop="title">
-            <el-input placeholder="请输入图书馆标题" v-model="ruleForm.title"></el-input>
+          <el-form-item label="角色账号" prop="username">
+            <el-input placeholder="请输入角色账号" v-model="ruleForm.username"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="发布作者" prop="author">
-            <el-input placeholder="请输入发布作者" v-model="ruleForm.author"></el-input>
+          <el-form-item label="角色密码" prop="password">
+            <el-input placeholder="请输入密码" v-model="ruleForm.password"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="图书馆类型" prop="type">
-            <el-select v-model="ruleForm.type" placeholder="请选择类型">
+          <el-form-item label="Email" prop="email">
+            <el-input placeholder="请输入邮箱" v-model="ruleForm.email"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="Tel" prop="tel">
+            <el-input placeholder="请输入手机号码" v-model="ruleForm.tel"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="角色类型" prop="level">
+            <el-select v-model="ruleForm.level" placeholder="请选择角色类型">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -37,41 +49,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="是否发布" prop="isshelves">
-            <el-switch v-model="ruleForm.isshelves" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
-          </el-form-item>
-        </el-col>
       </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="图书馆封面" prop="cover">
-            <el-upload
-              class="avatar-uploader"
-              :action="defaultUrl"
-              :show-file-list="false"
-              :on-success="handleCoverSuccess"
-              :before-upload="beforeUploadCover"
-            >
-              <img v-if="ruleForm.cover" :src="ruleForm.cover" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="24">
-          <el-form-item label="公告详情" prop="detail">
-            <vue-editor
-              id="editor"
-              useCustomImageHandler
-              @image-added="handleImageAdded"
-              v-model="ruleForm.detail"
-            ></vue-editor>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -85,7 +63,7 @@ import * as upload from "../../api/upload";
 import { parseTime } from "../../utils";
 import { VueEditor } from "vue2-editor";
 
-import * as myAxios from "../../api/librarymanage";
+import * as myAxios from "../../api/rolemanage";
 export default {
   name: "home",
   data() {
@@ -93,38 +71,47 @@ export default {
       // 图片上传地址
       defaultUrl: "",
       ruleForm: {
-        isshelves: false,
-        title: "",
-        detail: "",
-        type: "",
-        author: "",
-        cover: ""
+        username: "",
+        password: "",
+        tel: "",
+        email: "",
+        level: ""
       },
       rules: {
-        title: [{ required: true, message: "请输入标题", trigger: "change" }],
-        detail: [{ required: true, message: "请输入图书馆", trigger: "change" }],
-        type: [{ required: true, message: "请选择类型", trigger: "change" }],
-        author: [{ required: true, message: "请输入作者", trigger: "blur" }],
-        cover: [{ required: true, message: "请上传图片", trigger: "blur" }]
+        username: [
+          { required: true, message: "请输入管理员账号", trigger: "change" }
+        ],
+        password: [
+          { required: true, message: "请输入密码", trigger: "change" },
+          {
+            min: 5,
+            max: 15,
+            message: "长度在 5 到 15 个字母和数字",
+            trigger: "blur"
+          }
+        ],
+        tel: [{ required: true, message: "请选择电话号码", trigger: "change" }],
+        email: [{ required: true, message: "请输入邮箱", trigger: "change" }],
+        level: [{ required: true, message: "请选择用户类型", trigger: "change" }]
       },
       options: [
         {
-          name: "通知公告",
+          name: "普通管理员",
           value: 1
         },
         {
-          name: "阅读活动",
+          name: "超级管理员",
           value: 2
         }
       ]
     };
   },
   methods: {
-       // 查看详细信息
-    getdetail(){
+    // 查看详细信息
+    getdetail() {
       this.$router.push({
-        name: 'library_list'
-      })
+        name: "student_list"
+      });
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -148,7 +135,7 @@ export default {
     // 新建一个detail
     async savedetail() {
       let that = this;
-      await myAxios.newlibrary(this.ruleForm).then(res => {
+      await myAxios.newrole(this.ruleForm).then(res => {
         let data = res.data;
         that.$message.success(data.msg);
         // 创建成功，重置表单

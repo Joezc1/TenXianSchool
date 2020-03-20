@@ -44,7 +44,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="24">
+        <el-col :span="12">
           <el-form-item label="新闻封面" prop="cover">
             <el-upload
               class="avatar-uploader"

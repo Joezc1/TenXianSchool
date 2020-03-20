@@ -11,9 +11,9 @@
     <el-menu
       @select="selectIndex"
       :default-active="menuindex || '1-1'"
-      background-color="#545c64"
+      background-color="#4DB3B3"
       text-color="#fff"
-      active-text-color="#409EFF"
+      active-text-color="#000000"
       :class='{"el-menu-vertical-demo":true,"hiddenscroll":!isCollapse}'
       @open="handleOpen"
       @close="handleClose"

@@ -2,9 +2,9 @@
   <section class="app-main">
     <div class="app-main-container">
       <!-- <transition name="el-zoom-in-top"> -->
-        <keep-alive>
+        <!-- <keep-alive> -->
           <router-view></router-view>
-        </keep-alive>
+        <!-- </keep-alive> -->
       <!-- </transition> -->
     </div>
   </section>

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Layout from '@/views/layout'
+import { Message, MessageBox } from 'element-ui'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     component: () => import('../views/login')
   },
   {
+    path: '/404',
+    hidden: true,//是否显示
+    component: () => import('../views/404')
+  },
+  {
     path: '/Layout',
     name: 'Layout',
     hidden: true,
@@ -68,58 +74,38 @@ const routes = [
     ]
   },
     // 概况管理
-    {
-      path: '/survey_manage',
-      component: Layout,
-      name: 'survey_manage',
-      icon: 'el-icon-user',
-      adminname: '概况管理',
-      meta: {
-        title: 'survey_manage'
-      },
-      children: [
-        {
-          adminname: '概况信息',
-          path: 'survey_list',
-          component: () => import("../views/surveyManage"),
-          name: 'survey_list',
-          meta: {
-            title: 'survey_list'
-          }
-        },
-        {
-          adminname: '添加概况信息',
-          path: 'add_survey',
-          component: () => import("../views/surveyManage/addsurvey.vue"),
-          name: 'add_survey',
-          meta: {
-            title: 'add_survey'
-          }
-        }
-      ]
-    },
+    // {
+    //   path: '/survey_manage',
+    //   component: Layout,
+    //   name: 'survey_manage',
+    //   icon: 'el-icon-user',
+    //   adminname: '概况管理',
+    //   meta: {
+    //     title: 'survey_manage'
+    //   },
+    //   children: [
+    //     {
+    //       adminname: '概况信息',
+    //       path: 'survey_list',
+    //       component: () => import("../views/surveyManage"),
+    //       name: 'survey_list',
+    //       meta: {
+    //         title: 'survey_list'
+    //       }
+    //     },
+    //     {
+    //       adminname: '添加概况信息',
+    //       path: 'add_survey',
+    //       component: () => import("../views/surveyManage/addsurvey.vue"),
+    //       name: 'add_survey',
+    //       meta: {
+    //         title: 'add_survey'
+    //       }
+    //     }
+    //   ]
+    // },
   // 内容管理
-  {
-    path: '/content_manage',
-    component: Layout,
-    adminname: '内容管理',
-    name: 'content_manage',
-    icon: 'el-icon-tickets',
-    meta: {
-      title: 'content_manage'
-    },
-    children: [
-      {
-        path: 'content_list',
-        adminname: '公告管理',
-        component: () => import("../views/contentManage"),
-        name: 'content_list',
-        meta: {
-          title: 'content_list'
-        }
-      }
-    ]
-  },
+
   // 团委管理
   {
     path: '/cyl_manage',
@@ -399,6 +385,27 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/content_manage',
+    component: Layout,
+    adminname: '内容管理',
+    name: 'content_manage',
+    icon: 'el-icon-tickets',
+    meta: {
+      title: 'content_manage'
+    },
+    children: [
+      {
+        path: 'content_list',
+        adminname: '公告管理',
+        component: () => import("../views/contentManage"),
+        name: 'content_list',
+        meta: {
+          title: 'content_list'
+        }
+      }
+    ]
+  },
    // 用户管理
    {
     path: '/user_manage',
@@ -420,33 +427,55 @@ const routes = [
         }
       },
       {
-        adminname: '添加用户',
-        path: 'add_user',
-        component: () => import("../views/userManage/adduser.vue"),
-        name: 'add_user',
+        adminname: '角色列表',
+        path: 'role_list',
+        component: () => import("../views/userManage/rolelist.vue"),
+        name: 'role_list',
         meta: {
-          title: 'add_user'
+          title : 'role_list',
+        }
+      },
+      {
+        adminname: '添加角色',
+        path: 'add_role',
+        component: () => import("../views/userManage/addrole.vue"),
+        name: 'add_role',
+        meta: {
+          title : 'add_role',
         }
       }
     ]
+  },
+   // 404
+  {
+    path: '*',
+    hidden: true,
+    redirect: '/404'    
   },
 ]
 
 const router = new VueRouter({
   routes
 })
+
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title
-  // if (to.meta.login) {
-  // 	if(sessionStorage.getItem('logined') === 'true'){
-  // 		next(true)
-  // 	}else{
-  // 		next(false)
-  // 		this.$router.push('./login')
-  // 	}
-  // }else{
-  // 	next(true)
-  // }
+  console.log(to)
+  console.log(from)
+  if(to.fullPath.substring(1,11) == 'user_manage'){
+
+  }
+  if (to.path!='/') {
+  	if(sessionStorage.getItem('login')){
+  		next(true)
+  	}else{
+      next(false)
+      Message.info("请先登录")
+      this.$router.push('/')
+  	}
+  }else{
+  	next(true)
+  }
   next(true)
 })
 export default router

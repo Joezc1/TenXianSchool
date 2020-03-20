@@ -1,17 +1,14 @@
 <template>
   <div class="navbar-main">
-    <div class="navbar-left">hyknow后台管理系统</div>
+    <div class="navbar-left">藤县中学官网后台管理系统</div>
     <div class="navbar-right">
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
-          <img src="@/assets/img/a.jpg" />
+          <img src="@/assets/img/avtar.png" />
+          <span style="color: #000000;">{{username}}</span>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="a" icon="el-icon-setting">设置</el-dropdown-item>
-          <el-dropdown-item command="b" icon="el-icon-circle-plus">狮子头</el-dropdown-item>
           <el-dropdown-item command="c" icon="el-icon-circle-plus-outline">退出</el-dropdown-item>
-          <el-dropdown-item command="d" icon="el-icon-check">双皮奶</el-dropdown-item>
-          <el-dropdown-item command="e" icon="el-icon-circle-check">蚵仔煎</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -22,7 +19,9 @@
 export default {
   name: "navbar",
   data() {
-    return {};
+    return {
+      username: ''
+    };
   },
   methods: {
     handleCommand(e) {
@@ -32,6 +31,9 @@ export default {
         this.$router.push("/");
       }
     }
+  },
+  created(){
+    this.username = localStorage.getItem("username")
   }
 };
 </script>
@@ -40,6 +42,8 @@ export default {
 .el-dropdown-link {
   cursor: pointer;
   color: #409eff;
+  display: flex;
+  flex-direction: column;
 }
 .el-icon-arrow-down {
   font-size: 12px;
@@ -54,9 +58,10 @@ export default {
   width: 100%;
   height: 10vh;
   overflow-x: hidden;
+  overflow-y: hidden;
   .navbar-left {
     box-sizing: border-box;
-    color: #ffffff;
+    color: #fff;
     float: left;
     font-size: 19px;
     line-height: 50px;
@@ -70,8 +75,6 @@ export default {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      margin-right: 35px;
-      margin-top: 4px;
     }
   }
 }

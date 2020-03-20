@@ -12,7 +12,7 @@ $gray: #d9d9d9;
     font-size: 17px;
   }
 }
-.table{
+.table {
   margin-top: 20px;
 }
 </style>
@@ -24,19 +24,13 @@ $gray: #d9d9d9;
         <el-col :span="2">
           <el-button icon="el-icon-refresh" @click="getList"></el-button>
         </el-col>
-        <el-col :span="1">
-          <span>id:</span>
-        </el-col>
         <el-col :span="2">
-          <el-input v-model="reqData.id" placeholder="请输入id"></el-input>
+          <span>Username:</span>
         </el-col>
-        <el-col :offset="2" :span="2">
-          <span>标题:</span>
+        <el-col :span="3">
+          <el-input v-model="reqData.username" placeholder="请输入Username"></el-input>
         </el-col>
-        <el-col :span="2">
-          <el-input v-model="reqData.title" placeholder="请输入标题"></el-input>
-        </el-col>
-        <el-col :offset="9" :span="4">
+        <el-col :offset="13" :span="4">
           <el-button size="small" type="primary" @click.native.stop="restReqdata" plain>重置</el-button>
           <el-button size="small" type="primary" @click.native.stop="searchReqdata" plain>搜索</el-button>
           <el-button size="small" type="primary" @click.native.stop="newProject" plain>新建</el-button>
@@ -44,44 +38,29 @@ $gray: #d9d9d9;
       </el-row>
     </div>
     <el-table class="table" :data="tableData" size="medium" v-loading="loading">
-      <el-table-column label="ID" width="100">
+      <el-table-column label="用户ID" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
+          <span>{{ scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="标题" width="250">
+      <el-table-column label="用户名称" width="250">
         <template slot-scope="scope">
-          <span>{{ scope.row.title }}</span>
+          <span>{{ scope.row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否发布" width="100">
+      <el-table-column label="用户等级" width="100">
         <template slot-scope="scope">
-          <el-switch
-            disabled
-            v-model="scope.row.isshelves"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          ></el-switch>
+          <span>{{ switchLevel(scope.row.level) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="100">
+      <el-table-column label="Email" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createtime,'{y}-{m}-{d}') }}</span>
+          <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="修改时间" width="100">
+      <el-table-column label="Tel" width="160">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.updatetime,'{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="类型" width="70">
-        <template slot-scope="scope">
-          <span>{{ switchistype(scope.row.type) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="发布者" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <span>{{ scope.row.tel }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="230">
@@ -99,7 +78,7 @@ $gray: #d9d9d9;
       :total="total"
     ></el-pagination>
     <el-dialog
-      title="新增话题"
+      title="编辑用户信息"
       show-close
       top="20px"
       close-on-press-escape
@@ -118,21 +97,21 @@ $gray: #d9d9d9;
       >
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="师资标题" prop="title">
-              <el-input placeholder="请输入师资标题" v-model="ruleForm.title"></el-input>
+            <el-form-item label="用户名" prop="username">
+              <el-input placeholder="请输入用户名" v-model="ruleForm.username"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="发布作者" prop="author">
-              <el-input placeholder="请输入发布作者" v-model="ruleForm.author"></el-input>
+            <el-form-item label="用户密码" prop="password">
+              <el-input placeholder="请输入用户密码" v-model="ruleForm.password"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="师资类型" prop="type">
-              <el-select v-model="ruleForm.type" placeholder="请选择类型">
+            <el-form-item label="用户等级" prop="type">
+              <el-select v-model="ruleForm.level" placeholder="请选择类型">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -143,42 +122,15 @@ $gray: #d9d9d9;
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="是否发布" prop="isshelves">
-              <el-switch
-                v-model="ruleForm.isshelves"
-                active-color="#13ce66"
-                inactive-color="#ff4949"
-              ></el-switch>
+            <el-form-item label="用户邮箱号" prop="password">
+              <el-input placeholder="请输入用户邮箱" v-model="ruleForm.email"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="师资封面" prop="cover">
-              <el-upload
-                :disabled="disabled"
-                class="avatar-uploader"
-                :action="defaultUrl"
-                :show-file-list="false"
-                :on-success="handleCoverSuccess"
-                :before-upload="beforeUploadCover"
-              >
-                <img v-if="ruleForm.cover" :src="ruleForm.cover" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="公告详情" prop="detail">
-              <vue-editor
-                id="editor"
-                :disabled="disabled"
-                useCustomImageHandler
-                @image-added="handleImageAdded"
-                v-model="ruleForm.detail"
-              ></vue-editor>
+            <el-form-item label="用户手机号" prop="password">
+              <el-input placeholder="请输入用户手机号" v-model="ruleForm.tel"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -196,8 +148,7 @@ $gray: #d9d9d9;
 import * as upload from "../../api/upload";
 
 import { parseTime } from "../../utils";
-import { VueEditor } from "vue2-editor";
-import * as myAxios from "../../api/teachermanage";
+import * as myAxios from "../../api/rolemanage";
 
 export default {
   name: "home",
@@ -213,13 +164,7 @@ export default {
       reqData: {
         pageSize: 10,
         pageNo: 1,
-        id: "",
-        isshelves: false,
-        title: "",
-        detail: "",
-        type: "",
-        author: "",
-        cover: ""
+        username: ""
       },
       // 控制是否是编辑数据
       disabled: false,
@@ -229,40 +174,54 @@ export default {
       defaultUrl: "",
       // form表单数据
       ruleForm: {
-        id: "",
-        isshelves: false,
-        title: "",
-        detail: "",
-        type: "",
-        author: "",
-        cover: ""
+        username: "",
+        level: "",
+        tel: "",
+        email: "",
+        password: ""
       },
       // formrule
       rules: {
-        title: [{ required: true, message: "请输入标题", trigger: "change" }],
-        detail: [{ required: true, message: "请输入师资", trigger: "change" }],
-        type: [{ required: true, message: "请选择类型", trigger: "change" }],
-        author: [{ required: true, message: "请输入作者", trigger: "blur" }],
-        cover: [{ required: true, message: "请上传图片", trigger: "blur" }]
+        username: [
+          { required: true, message: "请输入用户账号", trigger: "change" }
+        ],
+        password: [
+          { required: true, message: "请输入账号密码", trigger: "change" }
+        ],
+        level: [
+          { required: true, message: "请选择用户等级", trigger: "change" }
+        ],
+        tel: [{ required: true, message: "请输入手机号", trigger: "change" }],
+        email: [{ required: true, message: "请输入邮箱", trigger: "blur" }]
       },
       // 下拉框选择
       options: [
         {
-          name: "教研组",
+          name: "普通管理员",
           value: 1
         },
         {
-          name: "名师队伍",
+          name: "超级管理员",
           value: 2
         }
       ]
     };
   },
   methods: {
+    switchLevel(level) {
+      switch (level) {
+        case 1:
+          return "普通管理员";
+          break;
+        default:
+          return "超级管理员";
+          break;
+      }
+    },
     // 新建
     newProject() {
       this.$router.push({
-        name: "add_teacher"
+        name: "add_role"
       });
     },
     // 搜索栏
@@ -300,7 +259,7 @@ export default {
           type: "warning"
         })
         .then(() => {
-          myAxios.deleteteacher(id).then(res => {
+          myAxios.deleterole(id).then(res => {
             let data = res.data;
             that.getList();
             that.$message.success(data.msg);
@@ -332,7 +291,7 @@ export default {
     async update() {
       let that = this;
       this.ruleForm.isshelves == true ? "true" : "false";
-      await myAxios.updateteacher(this.ruleForm, this.ruleForm.id).then(res => {
+      await myAxios.updaterole(this.ruleForm, this.ruleForm.id).then(res => {
         let data = res.data;
         if (data.success) {
           that.getList();
@@ -455,7 +414,6 @@ export default {
     this.getList();
   },
   components: {
-    VueEditor
   }
 };
 </script>

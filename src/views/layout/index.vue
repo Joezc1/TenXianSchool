@@ -33,14 +33,14 @@ export default {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
-    background-color: #545c64;
+    background-color: #4DB3B3;
   }
   .layout-body {
     width: 100%;
     height: 90vh;
     overflow-x: hidden;
     .body-left {
-      background-color: #545c64;
+      background-color: #4DB3B3;
       float: left;
       width: 13%;
       height: 100%;
