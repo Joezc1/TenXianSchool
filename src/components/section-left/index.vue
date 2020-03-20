@@ -174,7 +174,7 @@ $orange:#ed8233;
   padding: 20px;
   .el-input {
     float: left;
-    width: 65%;
+    width: 55%;
   }
   .el-input /deep/ input {
     height: 30px;

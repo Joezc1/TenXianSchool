@@ -3,7 +3,7 @@
     <div class="login-header clearfix">
       <div class="header-right clearfix">
         <div class="home" @click="gotoHome">返回首页</div>
-        <div class="register" @click="gotoRegister">注册</div>
+        <div class="register" @click="gotoLogin">登录</div>
       </div>
     </div>
 
@@ -13,8 +13,8 @@
       </div>
       <div class="center">
         <div class="registerbox">
-          <span class="title">还没有本站账号?</span>
-          <span class="register-item" @click="gotoRegister">点此注册>></span>
+          <span class="title">注册本站会员只需10秒，发布管理信息更轻松</span>
+          <!-- <span class="register-item" @click="gotoRegister">点此注册>></span> -->
         </div>
       </div>
       <div class="bottom">
@@ -27,14 +27,22 @@
             <div class="label">密码:</div>
             <input type="password" />
           </div>
+           <div class="username clearfix">
+            <div class="label">确认密码:</div>
+            <input type="password" />
+          </div>
+          <div class="username clearfix">
+            <div class="label">Email:</div>
+            <input type="text" />
+          </div>
           <div class="rememberpass">
             <span class="text">忘记密码?</span>
           </div>
-          <button>登录</button>
+          <button>立即注册</button>
         </div>
         <div class="bottom-right">
-          <div class="registers">立即注册</div>
-          <button @click="gotoRegister">立即注册</button>
+          <div class="registers">已经注册，立即登录</div>
+          <button @click="gotoLogin">立即登录</button>
         </div>
       </div>
     </div>
@@ -54,9 +62,9 @@ export default {
         name:'home'
       })
     },
-    gotoRegister(){
-      this.$router.push({
-        name:'register'
+    gotoLogin(){
+    this.$router.push({
+        name:'login'
       })
     }
   },
@@ -97,9 +105,6 @@ export default {
         .register-item {
           font-size: 15px;
           color: red;
-        }
-        .register-item:hover{
-          cursor: pointer;
         }
       }
     }

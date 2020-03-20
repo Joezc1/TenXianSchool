@@ -87,6 +87,7 @@ $lightgray: #999999;
 
 <template>
   <div class="partybuild-main clearfix">
+    
     <div class="right-box-item clearfix" v-for="(v,i) in morelist" @click="gotoText(v.id,v.type)" :key="i">
       <div class="item-title clearfix">
         <div class="title-text">{{v.title}}</div>

@@ -18,6 +18,12 @@
     width: 50%;
     float: left;
   }
+  .el-breadcrumb{
+    padding: 20px 0;
+    box-sizing: border-box;
+    font-size: 20px;
+  }
+
 .clearfix:after {
   content: " ";
   display: block;

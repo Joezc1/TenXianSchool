@@ -11,18 +11,18 @@ export function addNotice(data) {
 // 公告列表
 export function getNotices(data) {
   return request({
-    url: '/noticelist',
+    url: '/notice/list',
     method: 'post',
     data: data
   })
 }
 
 // 查询公告
-export function noticeDetail(data,id){
+export function detail(id){
   return request({
     url: `/notice/${id}`,
     method: 'post',
-    data: data
+    data: {}
   })
 }
 

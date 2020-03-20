@@ -81,6 +81,15 @@ const routes = [
     },
     component: () => import('../views/login')
   },
+  {
+    path: '/register',
+    name: 'register',
+    hidden: true,//是否显示
+    meta: {
+      title: 'register'
+    },
+    component: () => import('../views/register')
+  },
   // 测试布局
   {
     path: '/Layout',
@@ -145,7 +154,7 @@ const routes = [
     },
     children: [
       {
-        path: 'schoolhistory',
+        path: '',
         component: () => import("../views/schoolhistory"),
         name: 'schoolhistory',
         meta: {
@@ -175,7 +184,7 @@ const routes = [
     },
     children: [
       {
-        path: 'news',
+        path: '',
         component: () => import("../views/news"),
         name: 'news',
         meta: {
@@ -206,7 +215,7 @@ const routes = [
     },
     children: [
       {
-        path: 'cyl',
+        path: '',
         component: () => import("../views/cyl"),
         name: 'cyl',
         meta: {
@@ -236,7 +245,7 @@ const routes = [
     },
     children: [
       {
-        path: 'teacher',
+        path: '',
         component: () => import("../views/teacher"),
         name: 'teacher',
         meta: {
@@ -266,7 +275,7 @@ const routes = [
     },
     children: [
       {
-        path: 'student',
+        path: '',
         component: () => import("../views/student"),
         name: 'student',
         meta: {
@@ -296,7 +305,7 @@ const routes = [
     },
     children: [
       {
-        path: 'examination',
+        path: '',
         component: () => import("../views/examination"),
         name: 'examination',
         meta: {
@@ -326,7 +335,7 @@ const routes = [
     },
     children: [
       {
-        path: 'research',
+        path: '',
         component: () => import("../views/research"),
         name: 'research',
         meta: {
@@ -356,7 +365,7 @@ const routes = [
     },
     children: [
       {
-        path: 'album',
+        path: '',
         component: () => import("../views/album"),
         name: 'album',
         meta: {
@@ -387,7 +396,7 @@ const routes = [
     },
     children: [
       {
-        path: 'library',
+        path: '',
         component: () => import("../views/library"),
         name: 'library',
         meta: {

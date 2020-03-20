@@ -95,6 +95,7 @@ import * as schoolhistoryAxios from "../../api/schoolhistorymanage";
 import * as studentAxios from "../../api/studentmanage";
 import * as surveyAxios from "../../api/surveymanage";
 import * as teacherAxios from "../../api/teachermanage";
+import * as noticeAxios from "../../api/noticemanage"
 
 export default {
   name: "home",
@@ -202,6 +203,12 @@ export default {
           break
         case 'teacher':
           teacherAxios.detail(id).then(res => {
+            let data = res.data
+            that.article = data.data
+          })
+          break
+        case 'notice':
+          noticeAxios.detail(id).then(res => {
             let data = res.data
             that.article = data.data
           })

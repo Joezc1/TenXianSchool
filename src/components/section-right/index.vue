@@ -67,6 +67,10 @@ $lightgray: #999999;
 
 <template>
   <div>
+     <el-breadcrumb separator-class="el-icon-arrow-right">
+        <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item> -->
+        <el-breadcrumb-item v-for="(item,index) in $route.matched" :to="{ path: item.path }" :key="index" separator="/">{{item.meta.title}}</el-breadcrumb-item>
+      </el-breadcrumb>
     <!-- 文章布局 -->
     <div class="right-box" v-for="(item,index) in topoptions.list" :key="index">
       <div class="right-box-title clearfix">
@@ -99,6 +103,15 @@ export default {
         
     }
   },
+  watch:{
+    $route:{
+      getBreadList(){
+        $route.matched.forEach(element => {
+          this.breadlist.push(element)
+        });
+      }
+    }
+  },
   props: {
     topoptions: {
       type: Object
@@ -114,7 +127,7 @@ export default {
       }
   },
   created(){
-      console.log(this.topoptions)
+      console.log(this.$route)
   }
 };
 </script>
