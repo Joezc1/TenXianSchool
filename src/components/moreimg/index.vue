@@ -75,7 +75,8 @@ $lightgray: #999999;
 }
 .item-left {
   float: left;
-  width: 277px;
+  // width: 277px;
+  width: 30%;
   height: 255px;
   margin-right: 20px;
   // box-shadow: 0 2px 30px rgba(0,0,0,0.1);

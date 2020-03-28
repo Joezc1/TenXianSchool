@@ -56,7 +56,7 @@
             :key="index"
           >
             <span style="float:left;">{{item.title}}</span>
-            <span class="time" style="float:right;">{{ parseTime(item.createtime)}}</span>
+            <span class="time" style="float:right;">{{ parseTime(item.createtime,'{y}-{m}-{d}')}}</span>
           </div>
         </div>
         <div class="right-ul">
@@ -72,7 +72,7 @@
           >
             <span style="float:left;">【{{item.author}}】</span>
             <span style="float:left;">{{item.title}}</span>
-            <span style="float: right;" class="time">{{parseTime(item.createtime)}}</span>
+            <span style="float: right;" class="time">{{parseTime(item.createtime,'{y}-{m}-{d}')}}</span>
           </div>
         </div>
       </div>
@@ -332,7 +332,7 @@ $green: #6fb5a7;
   box-sizing: border-box;
 }
 .left-ul-item {
-  font-size: 16px;
+  font-size: 14px;
   background: $white;
   list-style: none;
   padding: 0 15px 0 15px;
@@ -347,10 +347,10 @@ $green: #6fb5a7;
   text-decoration: underline;
 }
 .right-ul-item {
-  font-size: 15px;
+  font-size: 14px;
   background: $white;
   list-style: none;
-  padding: 0 15px 0 15px;
+  padding: 0 15px 0 0;
   box-sizing: border-box;
   border-left: 2px solid #66666660;
   margin-top: 20px;
