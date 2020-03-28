@@ -26,7 +26,7 @@
 
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="校史类型" prop="type">
+          <el-form-item label="校史馆类型" prop="type">
             <el-select v-model="ruleForm.type" placeholder="请选择类型">
               <el-option
                 v-for="item in options"
