@@ -30,21 +30,22 @@
     </div>
 
     <div class="section-bottom">
-      <div class="bottom-title">{{bottomoptions.title}}</div>
+      <div class="bottom-title">热点新闻</div>
       <div class="bottom-list">
         <div
           :class="{'bottom-list-item':true,'one':index==0}"
-          @click="handleBottom(item.type)"
-          v-for="(item,index) in bottomoptions.list"
+          @click="gotoNotice('news',item.id)"
+          v-for="(item,index) in schoolnews"
           :key="index"
         >{{index}}
-        {{item.name}}</div>
+        {{item.title | dealStr}}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import * as newsAxios from "../../api/newsmanage"
 import { parseTime } from "../../utils";
 // @ is an alias to /src
 export default {
@@ -71,19 +72,49 @@ export default {
     // }
     // ],
     // }
-    bottomoptions: {
-      type: Object
+    // bottomoptions: {
+    //   type: Object
+    // }
+  },
+  filters:{
+    dealStr(str){
+      return str.substring(0,15)
     }
   },
   data() {
     return {
+       reqData: {
+        pageNo: 1,
+        pageSize: 6,
+        pageCount: "",
+        id: "",
+        title: ""
+      },
+      schoolnews: [],
       searchvalue: ""
     };
   },
   methods: {
-    handleBottom(value) {
-      this.$emit("handleBottom", value);
+     // 获取校园公告
+    async getNews() {
+      let that = this;
+      await newsAxios.list(this.reqData).then(res => {
+        that.schoolnews = res.data.list;
+      });
     },
+       // 详情
+    gotoNotice(type, id) {
+      this.$router.push({
+        name: "notice",
+        query: {
+          name: type,
+          id: id
+        }
+      });
+    },
+    // handleBottom(value) {
+    //   this.$emit("handleBottom", value);
+    // },
     handleTop(value) {
       this.$emit("handleTop", value);
     },
@@ -92,6 +123,7 @@ export default {
     }
   },
   created() {
+    this.getNews()
     console.log(this.topoptions);
     console.log(this.bottomoptions);
   },

@@ -1,26 +1,35 @@
 import { login, logout, getInfo } from '@/api/login'
+import * as myaxios from "../../api/usermanage"
+import { Message, MessageBox } from 'element-ui'
 
 const user = {
   state: {
-    name: sessionStorage.getItem('name') || 'zzcc',
-    userId: sessionStorage.getItem('userId') || 0,
+    name: '',
+    userId: '',
+    username: '',
+    login: false,
   },
 
   mutations: {
     SET_NAME: (state, name) => {
-      state.name = name
+      state.username = name
     },
     SET_USERID: (state, id) => {
       state.userId = id
     },
+    SET_LOGIN: (state, login) => {
+      state.login = login
+    },
     // 前端 登出
-    FedLogOut({ commit }) {
-      sessionStorage.removeItem('login')
-      sessionStorage.removeItem('userId')
-      sessionStorage.removeItem('name')
-      sessionStorage.removeItem('menuindex')
+    FedLogOut:(state)=> {
       let list = []
+      console.log("登出")
+      Message.success("退出登录")
       localStorage.setItem('tags',JSON.stringify(list))
+      state.login =false
+      state.username = ''
+      state.userId = ''
+      sessionStorage.remove()
       // localStorage.clear()
       // localStorage.removeItem('tags')
       // commit('SET_MENUS', [])
@@ -30,22 +39,22 @@ const user = {
   actions: {
     // 登录
     Login({ commit }, userInfo) {
-      const username = userInfo.username.trim()
+      console.log("调用")
       return new Promise((resolve, reject) => {
-        login(username, userInfo.password)
-          .then(response => {
-            const data = response.data
-            commit('SET_USERID', data.id);
-            commit('SET_NAME', data.name)
-            sessionStorage.setItem('login', 1)
-            sessionStorage.setItem('name', data.name)
-            sessionStorage.setItem('userId', data.id)
-            resolve()
-          })
-          .catch(error => {
-            console.log(error)
-            reject(error)
-          })
+        myaxios.login(userInfo).then(res => {
+          if(res.success){
+            commit("SET_USERID",res.userinfo.userid)
+            commit("SET_LOGIN",true)
+            commit("SET_NAME",res.userinfo.username)
+            sessionStorage.setItem('login',true)
+            Message.success(res.msg)
+            resolve(true)
+          }else{
+            Message.error(res.msg)
+            reject(false)
+          }
+         
+        })
       })
     },
 

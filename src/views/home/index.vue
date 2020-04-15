@@ -2,7 +2,7 @@
   <div class="home-body clearfix">
     <div class="body-top clearfix">
       <div class="body-left">
-
+         
         <!-- <el-carousel :interval="4000" type="card" height="200px">
           <el-carousel-item v-for="(item,index) in imglist" :key="index">
             <div @click="gotoNotice('notice',item.id)" class="slide-item">

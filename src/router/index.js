@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Layout from '@/views/layout'
 
+
 Vue.use(VueRouter)
 
 // 数据分析
@@ -50,7 +51,15 @@ const routes = [
       }
     ]
   },
-   // 首页
+  {
+    path: '/404',
+    component: () => import("../views/404"),
+    hidden:true,
+    meta: {
+      title: '404'
+    }
+  },
+   // 公告
    {
     path: '/notice_manage',
     component: Layout,
@@ -80,6 +89,15 @@ const routes = [
       title: 'login'
     },
     component: () => import('../views/login')
+  },
+  {
+    path: '/my',
+    name: 'my',
+    hidden: true,//是否显示
+    meta: {
+      title: '个人中心'
+    },
+    component: () => import('../views/my')
   },
   {
     path: '/register',
@@ -414,6 +432,7 @@ const routes = [
       }
     ]
   },
+  {path: '*', redirect: '/404', hidden: true}
 
 
 ]
@@ -422,18 +441,6 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title
-  // if (to.meta.login) {
-  // 	if(sessionStorage.getItem('logined') === 'true'){
-  // 		next(true)
-  // 	}else{
-  // 		next(false)
-  // 		this.$router.push('./login')
-  // 	}
-  // }else{
-  // 	next(true)
-  // }
-  next(true)
-})
+
+
 export default router

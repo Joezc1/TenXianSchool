@@ -52,6 +52,8 @@ $lightgray: #999999;
 .article-article {
   margin-top: 30px;
   box-sizing: border-box;
+  letter-spacing: 1px;
+  font-size: 15px;
 }
 </style>
 
@@ -73,7 +75,7 @@ $lightgray: #999999;
           <div class="author">作者:{{article.author}}</div>
           <div class="createtime">发布时间:{{parseTime(article.createtime)}}</div>
         </div>
-        <div class="article-article" v-html="article.detail"></div>
+        <div class="article-article" v-html="article.detail | dealtext"></div>
       </div>
     </div>
   </div>

@@ -3,7 +3,6 @@
     <div class="login-header clearfix">
       <div class="header-right clearfix">
         <div class="home" @click="gotoHome">返回首页</div>
-        <div class="register" @click="gotoLogin">登录</div>
       </div>
     </div>
 
@@ -11,52 +10,47 @@
       <div class="top">
         <img class="logo" src="../../assets/img/logo1.png" alt />
       </div>
-      <div class="center">
+      <!-- <div class="center">
         <div class="registerbox">
           <span class="title">注册本站会员只需10秒，查看信息更轻松</span>
-          <!-- <span class="register-item" @click="gotoRegister">点此注册>></span> -->
         </div>
-      </div>
+      </div>-->
       <div class="bottom">
         <div class="bottom-left">
           <div class="username clearfix">
             <div class="label">
               <span>*</span>用户名:
             </div>
-            <input v-model="userInfo.username" type="text" />
+            <input disabled v-model="userInfo.username" type="text" />
           </div>
           <div class="password clearfix">
             <div class="label">
               <span>*</span>密码:
             </div>
-            <input v-model="userInfo.password" type="password" />
-          </div>
-          <div class="username clearfix">
-            <div class="label">
-              <span>*</span>确认密码:
-            </div>
-            <input v-model="userInfo.repassword" type="password" />
+            <input v-model="userInfo.password" :disabled="disabled" type="password" />
           </div>
           <div class="username clearfix">
             <div class="label">
               <span>*</span>Email
             </div>
-            <input type="text" v-model="userInfo.email" />
+            <input type="text" :disabled="disabled" v-model="userInfo.email" />
           </div>
           <div class="username clearfix">
             <div class="label">
               <span>*</span>tel:
             </div>
-            <input type="text" v-model="userInfo.tel" />
+            <input type="text" :disabled="disabled" v-model="userInfo.tel" />
           </div>
-          <!-- <div class="rememberpass">
-            <span class="text">忘记密码?</span>
-          </div> -->
-          <button @click="registerUser">立即注册</button>
+          <div v-if="!disabled" class="rememberpass">
+            <el-button @click="updateUser">保存</el-button>
+          </div>
         </div>
         <div class="bottom-right">
-          <div class="registers">已经注册，立即登录</div>
-          <button @click="gotoLogin">立即登录</button>
+          <img src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+          <div class="bottom-btns">
+            <el-button style="width:113px;" plain class="personal-btn" @click="changeInfo">修改个人信息</el-button>
+            <el-button class="exit-btn" @click="logout">退出登录</el-button>
+          </div>
         </div>
       </div>
     </div>
@@ -71,83 +65,46 @@ export default {
   name: "home",
   data() {
     return {
+      disabled: true,
+      userid: "",
       userInfo: {
-        username: "",
-        password: "",
-        repassword: "",
-        email: "",
-        tel: ""
+          username: '',
+          password: '',
+          email: '',
+          tel: '',
+          repassword: ''
       }
     };
   },
   methods: {
-    validata,
-    // 用户注册
-    async registerUser() {
-      let that = this;
-
-      for (let item in this.userInfo) {
-        if (this.userInfo[item] == null || this.userInfo[item] == "") {
-          switch (item) {
-            case "username":
-              this.$message.warning(`请填写用户名`);
-              break;
-            case "password":
-              this.$message.warning(`请填写密码`);
-              break;
-            case "repassword":
-              this.$message.warning(`请确认密码`);
-              break;
-            case "email":
-              this.$message.warning(`请填写邮箱号`);
-              break;
-            default:
-              this.$message.warning(`请填写手机号码`);
-              break;
-          }
-          // this.$message.error('错了哦，这是一条错误消息');
-          return false;
-        }
-      }
-      if(this.userInfo.password!=this.userInfo.repassword){
-        this.$message.warning("密码不一致")
-        return false
-      }
-      let list = [
-         {
-          type: "email",
-          value: this.userInfo.email
-        },
-         {
-          type: "username",
-          value: this.userInfo.username
-        },
-        {
-          type: "password",
-          value: this.userInfo.password
-        },
-         {
-          type: "tel",
-          value: this.userInfo.tel
-        }
-      ];
-      let obj = this.validata(list);
-      console.log("打印结果")
-      console.log(obj)
-      if (!obj.success) {
-        this.$message.warning(`${obj.msg}`);
-        return false
-      }
-      await myAxios.register(this.userInfo).then(res => {
-        if (res.success) {
-          that.$message.success("注册成功");
-          that.$router.push({
-            name: "login"
-          });
-        } else {
-          that.$message.error(res.msg);
-        }
-      });
+    async findUser() {
+        let that = this
+      await myAxios.finduser({},this.$store.getters.userid).then(res => {
+          console.log(res)
+          that.userInfo = res.data.data
+      })
+    },
+    logout(){
+         this.$store.commit("FedLogOut");
+         this.$router.push({
+             name: 'home'
+         })
+    },
+    async updateUser(){
+        let that = this
+        await myAxios.updateUser(this.userInfo.userid,this.userInfo).then(res => {
+            if(res.data.success){    
+                that.$message.success(res.data.msg)
+                that.disabled = true
+                that.findUser()
+            }else{
+                that.$message.error(res.data.msg)
+                that.disabled = true
+            }
+        })
+    },
+    changeInfo(){
+        this.disabled = false
     },
     gotoHome() {
       this.$router.push({
@@ -161,7 +118,10 @@ export default {
     }
   },
   computed: {},
-  created() {},
+  created() {
+    this.userid = this.$store.getters.userid;
+    this.findUser()
+  },
   components: {}
 };
 </script>
@@ -203,6 +163,8 @@ export default {
     .bottom {
       width: 100%;
       display: flex;
+      margin-top: 20px;
+      border-top: 1px solid #55555530;
       border-bottom: 1px solid #55555530;
       .bottom-left {
         width: 100%;
@@ -268,6 +230,21 @@ export default {
       .bottom-right {
         width: 100%;
         flex: 1;
+        text-align: center;
+        padding: 0 0 30px 0;
+        box-sizing: border-box;
+        .bottom-btns {
+          width: 100%;
+          margin-top: 20px;
+          box-sizing: border-box;
+          display: flex;
+          text-align: center;
+        }
+        img {
+          width: 150px;
+          height: 150px;
+          border-radius: 50%;
+        }
         .registers {
           text-align: left;
           width: 100%;

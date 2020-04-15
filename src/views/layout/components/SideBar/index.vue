@@ -2,21 +2,21 @@
   <div>
     <el-menu
       @select="selectIndex"
-      :default-active="menuindex || '1-1'"
+      default-active="1"
       background-color="#1f72a7"
       text-color="#fff"
       active-text-color="#409EFF"
       @open="handleOpen"
       @close="handleClose"
       :collapse="isCollapse"
+      router
       mode="horizontal"
       class="el-menu-demo"
     >
-      <el-submenu v-for="(item,index) in list" :key="index" :index="formatOne(index)">
+      <!-- <el-submenu v-for="(item,index) in list" :key="index" :index="formatOne(index)">
         <template slot="title">
           <span class="title" slot="title">{{item.adminname}}</span>
         </template>
-        <el-menu-item-group>
           <template v-for="(k,i) in item.children">
             <router-link :to="item.path +'/'+k.path" :key="i">
               <el-menu-item
@@ -26,9 +26,13 @@
               >{{k.meta.title}}</el-menu-item>
             </router-link>
           </template>
-        </el-menu-item-group>
-      </el-submenu>
-
+      </el-submenu>-->
+      <!-- <router-link v-for="(item,index) in itemList" :to="item.path" :key="index"> -->
+      <el-menu-item v-for="(item,index) in itemList" :key="index" :index="item.path">
+        <span slot="title">{{item.name}}</span>
+        <i class="el-icon-arrow-right"></i>
+      </el-menu-item>
+      <!-- </router-link> -->
       <!-- <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-warning-outline"></i>
@@ -51,7 +55,42 @@ export default {
       labelflag: false,
       isCollapse: false,
       arr: [],
-      list: []
+      list: [],
+      itemList: [
+        {
+          name: "首页"
+        },
+        {
+          name: "概况"
+        },
+        {
+          name: "校史"
+        },
+        {
+          name: "新闻"
+        },
+        {
+          name: "团委"
+        },
+        {
+          name: "师资"
+        },
+        {
+          name: "学子"
+        },
+        {
+          name: "高考"
+        },
+        {
+          name: "教研"
+        },
+        {
+          name: "相册"
+        },
+        {
+          name: "图书馆"
+        }
+      ]
       // iconlist: ['el-icon-edit-outline','el-icon-warning-outline','el-icon-tickets','el-icon-user','el-icon-data-analysis']
     };
   },
@@ -60,6 +99,11 @@ export default {
   },
   created() {
     this.getRoutes();
+  },
+  filters: {
+    dealNum(index) {
+      return index * 1 + 1;
+    }
   },
   methods: {
     ...mapMutations("admin", {
@@ -90,6 +134,7 @@ export default {
           this.arr.push(this.routes[i]);
         }
       }
+
       for (let j = 0; j < this.arr.length; j++) {
         // this.arr[j].icon = this.iconlist[j]
         for (let k = 0; k < this.arr[j].children.length; k++) {
@@ -98,7 +143,13 @@ export default {
             k--;
           }
         }
+
         this.list.push(this.arr[j]);
+        // item.path +'/'+k.path
+        this.list.forEach((element, index, arr) => {
+          this.itemList[index].path =
+            element.path + "/" + element.children[0].path;
+        });
       }
       // 将routes存取到状态管理器
       this.$store.state.routes = this.list;

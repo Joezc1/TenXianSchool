@@ -5,7 +5,10 @@ import router from './router'
 import store from './store'
 import './assets/css/btns.css'
 import 'swiper/dist/css/swiper.css'
+import "./permission"
 
+import * as filters from './filters'
+Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
 
 import echarts from 'echarts'
 
