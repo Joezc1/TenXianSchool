@@ -26,6 +26,8 @@ app.use(require('cors')())
 
 app.use('/uploads',express.static(__dirname+ '/uploads'))
 app.use('/admin',express.static(__dirname+ '/admin'))
+app.use('/web',express.static(__dirname+ '/web'))
+
 
 app.listen(8080,()=>{
     console.log("http://39.106.159.120:8080")

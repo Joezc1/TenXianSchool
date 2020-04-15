@@ -117,13 +117,13 @@ module.exports = app => {
     router.post('/album/type/:type', [], (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
-        if(req.params.type == 'null'){
+        if (req.params.type == 'null') {
             req.params.type = ''
         }
         console.log("打印根据类型")
         console.log(req.params.type)
         console.log(req.body.title)
-        albumdb.findByType(req.params.type,req.body.title, x, y, [], (dbresult, field) => {
+        albumdb.findByType(req.params.type, req.body.title, x, y, [], (dbresult, field) => {
             albumdb.findCount('id', [], (result, fields) => {
                 let data = {}
                 let list = []
@@ -145,10 +145,10 @@ module.exports = app => {
     router.post('/cyl/type/:type', [], (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
-        if(req.params.type == 'null'){
+        if (req.params.type == 'null') {
             req.params.type = ''
         }
-        cyldb.findByType(req.params.type,req.body.title, x, y, [], (dbresult, field) => {
+        cyldb.findByType(req.params.type, req.body.title, x, y, [], (dbresult, field) => {
             cyldb.findCount('id', [], (result, fields) => {
                 let data = {}
                 let list = []
@@ -170,10 +170,10 @@ module.exports = app => {
     router.post('/examination/type/:type', [], (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
-        if(req.params.type == 'null'){
+        if (req.params.type == 'null') {
             req.params.type = ''
         }
-        examinationdb.findByType(req.params.type,req.body.title, x, y, [], (dbresult, field) => {
+        examinationdb.findByType(req.params.type, req.body.title, x, y, [], (dbresult, field) => {
             examinationdb.findCount('id', [], (result, fields) => {
                 let data = {}
                 let list = []
@@ -195,10 +195,10 @@ module.exports = app => {
     router.post('/library/type/:type', [], (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
-        if(req.params.type == 'null'){
+        if (req.params.type == 'null') {
             req.params.type = ''
         }
-        librarydb.findByType(req.params.type,req.body.title, x, y, [], (dbresult, field) => {
+        librarydb.findByType(req.params.type, req.body.title, x, y, [], (dbresult, field) => {
             librarydb.findCount('id', [], (result, fields) => {
                 let data = {}
                 let list = []
@@ -220,10 +220,10 @@ module.exports = app => {
     router.post('/news/type/:type', [], (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
-        if(req.params.type == 'null'){
+        if (req.params.type == 'null') {
             req.params.type = ''
         }
-        newsdb.findByType(req.params.type,req.body.title, x, y, [], (dbresult, field) => {
+        newsdb.findByType(req.params.type, req.body.title, x, y, [], (dbresult, field) => {
             newsdb.findCount('id', [], (result, fields) => {
                 let data = {}
                 let list = []
@@ -245,10 +245,10 @@ module.exports = app => {
     router.post('/research/type/:type', [], (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
-        if(req.params.type == 'null'){
+        if (req.params.type == 'null') {
             req.params.type = ''
         }
-        researchdb.findByType(req.params.type,req.body.title, x, y, [], (dbresult, field) => {
+        researchdb.findByType(req.params.type, req.body.title, x, y, [], (dbresult, field) => {
             researchdb.findCount('id', [], (result, fields) => {
                 let data = {}
                 let list = []
@@ -270,10 +270,10 @@ module.exports = app => {
     router.post('/schoolhistory/type/:type', [], (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
-        if(req.params.type == 'null'){
+        if (req.params.type == 'null') {
             req.params.type = ''
         }
-        schoolhistorydb.findByType(req.params.type,req.body.title, x, y, [], (dbresult, field) => {
+        schoolhistorydb.findByType(req.params.type, req.body.title, x, y, [], (dbresult, field) => {
             schoolhistorydb.findCount('id', [], (result, fields) => {
                 let data = {}
                 let list = []
@@ -295,10 +295,10 @@ module.exports = app => {
     router.post('/student/type/:type', [], (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
-        if(req.params.type == 'null'){
+        if (req.params.type == 'null') {
             req.params.type = ''
         }
-        studentdb.findByType(req.params.type,req.body.title, x, y, [], (dbresult, field) => {
+        studentdb.findByType(req.params.type, req.body.title, x, y, [], (dbresult, field) => {
             studentdb.findCount('id', [], (result, fields) => {
                 let data = {}
                 let list = []
@@ -320,10 +320,10 @@ module.exports = app => {
     router.post('/survey/type/:type', [], (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
-        if(req.params.type == 'null'){
+        if (req.params.type == 'null') {
             req.params.type = ''
         }
-        surveydb.findByType(req.params.type,req.body.title, x, y, [], (dbresult, field) => {
+        surveydb.findByType(req.params.type, req.body.title, x, y, [], (dbresult, field) => {
             surveydb.findCount('id', [], (result, fields) => {
                 let data = {}
                 let list = []
@@ -345,10 +345,10 @@ module.exports = app => {
     router.post('/teacher/type/:type', [], (req, res) => {
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
-        if(req.params.type == 'null'){
+        if (req.params.type == 'null') {
             req.params.type = ''
         }
-        teacherdb.findByType(req.params.type,req.body.title, x, y, [], (dbresult, field) => {
+        teacherdb.findByType(req.params.type, req.body.title, x, y, [], (dbresult, field) => {
             teacherdb.findCount('id', [], (result, fields) => {
                 let data = {}
                 let list = []
@@ -1085,7 +1085,7 @@ module.exports = app => {
 
         })
     })
-    // 用户管路
+    // 后台用户管路
     // 用户列表
 
     router.post('/user/list', (req, res) => {
@@ -1165,9 +1165,90 @@ module.exports = app => {
         })
     })
 
+    // 找回密码
+    router.post('/find/pass', (req, res) => {
+        let form = req.body
+        userdb.findByName(form.username, [], (result, fields) => {
+            if (result[0]) {
+                userdb.findPass(form.username, form.tel, form.email, [], (r, f) => {
+                    if (r[0]) {
+                        let data = {}
+                        data.success = true
+                        data.userInfo = r[0]
+                        data.msg = "找回成功"
+                        res.send(data)
+                    } else {
+                        let data = {}
+                        data.success = false
+                        data.msg = "找回失败,请重试"
+                        res.send(data)
+                    }
+                })
+            } else {
+                let data = {}
+                data.success = false
+                data.msg = "该账户不存在"
+                res.send(data)
+            }
+        })
+    })
+
+    // web端用户管理
+    // web端用户登录
+    router.post('/web/user/login', (req, res) => {
+        // 判断username是否存在
+        userdb.findByName(req.body.username, [], (result, fields) => {
+            let obj = result[0]
+            // 存在
+            if (obj) {
+                if (obj.password !== req.body.password) {
+                    let data = {}
+                    data.success = false
+                    data.msg = "用户或密码错误"
+                    res.send(data)
+                } else {
+                    console.log("用户已经存在")
+                    userdb.findById(obj.userid, [], (d, f) => {
+                        let data = {}
+                        data.success = true
+                        data.msg = '登陆成功'
+                        data.userinfo = obj
+                        res.send(data)
+                    })
+                }
+                // 不存在
+            } else {
+                let data = {}
+                data.success = false
+                data.msg = "用户不存在，请先注册"
+                res.send(data)
+            }
+        })
+    })
+    // web端用户注册
+    router.post('/web/user/register', (req, res) => {
+        userdb.findByName(req.body.username, [], (result, fields) => {
+            let obj = result[0]
+            if (obj) {
+                let data = {}
+                data.msg = "用户已经存在，请直接登录"
+                data.success = false
+                res.send(data)
+            } else {
+                userdb.insert(req.body, [], (r, f) => {
+                    let data = {}
+                    data.msg = "注册成功"
+                    data.success = true
+                    res.send(data)
+                })
+            }
+        })
+    })
+
     const adminuserdb = require("../../plugins/adminuserdb")
     // 角色管理
-    // 角色登录
+    // 角色管理
+    // 用户登录
     router.post('/admin/user/login', [], (req, res) => {
         let user = req.body
         adminuserdb.findByName(user.username, [], (result, error) => {
@@ -1175,17 +1256,33 @@ module.exports = app => {
                 console.log("打印登录用户")
                 console.log(user)
                 console.log(result[0])
-                if(user.password == result[0].password){
-                    console.log("用户已存在")
-                    // let jwt = new jwtUtil(user.name)
-                    let token = jwtUtil.generateToken(user.name)
-                    let data = {}
-                    data.userinfo = result[0]
-                    data.success = true
-                    data.msg = '登陆成功'
-                    data.token = token
-                    res.send(data)
-                }else{
+                if (user.password == result[0].password) {
+                    if (result[0].login == 1) {
+                        console.log("11111111111111")
+                        console.log("账号占用")
+                        let data = {}
+                        data.success = false
+                        data.msg = "该账号被占用"
+                        // 账号不存在
+                        data.code = -2
+                        return res.send(data)
+                    } else {
+                        console.log("22222222222222")
+                        console.log("用户已存在")
+                        // let jwt = new jwtUtil(user.name)
+                        let token = jwtUtil.generateToken(user.name)
+                        let data = {}
+                        data.userinfo = result[0]
+                        data.userinfo.login = 1
+                        adminuserdb.updateById(data.userinfo, data.userinfo.id, [], (r, f) => {
+                            data.success = true
+                            data.msg = '登陆成功'
+                            data.token = token
+                            res.send(data)
+                        })
+                    }
+                } else {
+                    console.log("33333333333333333")
                     console.log("用户或密码错误")
                     let data = {}
                     data.success = false
@@ -1193,6 +1290,7 @@ module.exports = app => {
                     res.send(data)
                 }
             } else {
+                console.log("444444444444444444444")
                 console.log("用户不存在")
                 let data = {}
                 data.success = false
@@ -1203,8 +1301,27 @@ module.exports = app => {
             }
         })
     })
-    //角色管理，角色列表
+
+    // 用户退出登录
+    router.post('/admin/user/logout', [], (req, res) => {
+        console.log("退出登录")
+        console.log(req)
+        console.log(req.body)
+        adminuserdb.findById(req.body.userid, [], (r, f) => {
+            let user = r[0]
+            user.login = 0
+            adminuserdb.updateById(user, user.id, [], (result, fields) => {
+                let data = {}
+                data.msg = "退出成功",
+                    data.code = 1
+                res.send(data)
+            })
+        })
+    })
+
+    //角色列表
     router.post('/role/list', (req, res) => {
+        console.log("121212")
         let x = (req.body.pageNo - 1) * req.body.pageSize
         let y = req.body.pageSize
         adminuserdb.find(req.body, x, y, [], (dbresult, fields) => {
@@ -1279,6 +1396,9 @@ module.exports = app => {
 
         })
     })
+
+
+
 
     //内容管理
     //公告管理，公告列表
