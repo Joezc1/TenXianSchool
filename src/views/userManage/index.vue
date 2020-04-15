@@ -65,9 +65,9 @@ $gray: #d9d9d9;
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="230">
         <div class="btns" slot-scope="scope">
-          <el-button size="small" type="primary" @click="handleDetail(scope.row)">详情</el-button>
-          <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button :disabled="enable" size="small" type="primary" @click="handleDetail(scope.row)">详情</el-button>
+          <el-button :disabled="enable" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button :disabled="enable" size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
         </div>
       </el-table-column>
     </el-table>
@@ -154,6 +154,7 @@ export default {
   name: "home",
   data() {
     return {
+      enable:true,
       // loading控制表格加载数据
       loading: false,
       // 表格数据
@@ -209,7 +210,7 @@ export default {
   },
   methods: {
     switchLevel(level) {
-      switch (level) {
+      switch (parseInt(level)) {
         case 1:
           return "学生";
           break;
@@ -279,9 +280,9 @@ export default {
       await myAxios.list(this.reqData).then(res => {
         let data = res.data;
         that.tableData = data.list;
-        that.tableData.forEach((element, index, arr) => {
-          arr[index].isshelves = that.switchisshelves(arr[index].isshelves);
-        });
+        // that.tableData.forEach((element, index, arr) => {
+        //   arr[index].isshelves = that.switchisshelves(arr[index].isshelves);
+        // });
         that.total = parseInt(data.pageCount);
         this.loading = false;
       });
@@ -290,7 +291,7 @@ export default {
     // 修改信息
     async update() {
       let that = this;
-      this.ruleForm.isshelves == true ? "true" : "false";
+      // this.ruleForm.isshelves == true ? "true" : "false";
       await myAxios.updateuser(this.ruleForm, this.ruleForm.userid).then(res => {
         let data = res.data;
         if (data.success) {
@@ -410,7 +411,10 @@ export default {
     }
   },
   created(){
-      console.log(this.$store.state)
+    console.log("打印store")
+    this.enable = parseInt(sessionStorage.getItem('level'))==2?false:true
+
+     console.log(this.$store)
   },
   mounted() {
     this.defaultUrl = upload.defaultUrl;

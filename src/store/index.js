@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import user from './modules/user'
 import admin from './modules/admin'
 import getters from './getter'
+// import createPersistedState from "vuex-persistedstate";
+
 
 Vue.use(Vuex)
 
@@ -11,7 +13,8 @@ const store = new Vuex.Store({
     user,
     admin,
   },
-  getters
+  getters,
+  // plugins: [createPersistedState()]
 })
 
 export default store

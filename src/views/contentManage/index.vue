@@ -3,7 +3,7 @@
         <div class="header">
       <el-row>
         <el-col :span="2">
-          <el-button icon="el-icon-refresh" @click="getList"></el-button>
+          <el-button icon="el-icon-refresh" @click="getNoticeList"></el-button>
         </el-col>
         <el-col :span="1">
           <span>id:</span>

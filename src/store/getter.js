@@ -4,7 +4,7 @@ const getters = {
     routes: state => state.admin.routes,
     tags: state => state.admin.tags,
     menuindex: state => state.admin.menuindex,
-    level: state => state.use.level
+    level: state => state.user.level
 }
 export default getters
   

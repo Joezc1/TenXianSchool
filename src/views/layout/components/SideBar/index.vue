@@ -7,14 +7,14 @@
       <el-radio-button :label="true">
         <i class="el-icon-menu"></i>
       </el-radio-button>
-    </el-radio-group> -->
+    </el-radio-group>-->
     <el-menu
       @select="selectIndex"
       :default-active="menuindex || '1-1'"
       background-color="#4DB3B3"
       text-color="#fff"
       active-text-color="#000000"
-      :class='{"el-menu-vertical-demo":true,"hiddenscroll":!isCollapse}'
+      :class="{'el-menu-vertical-demo':true,'hiddenscroll':!isCollapse}"
       @open="handleOpen"
       @close="handleClose"
       :collapse="isCollapse"
@@ -57,14 +57,18 @@ export default {
   data() {
     return {
       labelflag: false,
-      isCollapse: false,
       arr: [],
       list: []
       // iconlist: ['el-icon-edit-outline','el-icon-warning-outline','el-icon-tickets','el-icon-user','el-icon-data-analysis']
     };
   },
+  props: {
+    isCollapse: {
+      type: Boolean
+    }
+  },
   computed: {
-    ...mapGetters(["routes", "name", "tags","menuindex"])
+    ...mapGetters(["routes", "name", "tags", "menuindex"])
   },
   created() {
     this.getRoutes();
@@ -126,10 +130,10 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    selectIndex(e){
-      console.log("选中函数")
-      console.log(e)
-      sessionStorage.menuindex = e
+    selectIndex(e) {
+      console.log("选中函数");
+      console.log(e);
+      sessionStorage.menuindex = e;
     }
   }
 };
@@ -157,6 +161,11 @@ a {
 .hiddenscroll {
   overflow-x: hidden;
   overflow-y: auto;
-  height: 88vh;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  height: 100%;
+}
+.hiddenscroll::-webkit-scrollbar{
+  width: 0 !important;
 }
 </style>

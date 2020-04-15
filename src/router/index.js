@@ -42,36 +42,16 @@ const routes = [
   {
     path: '/404',
     hidden: true,//是否显示
-    component: () => import('../views/404')
+    component: () => import('../views/404'),
+    meta: {
+      title: '404'
+    },
   },
   {
     path: '/Layout',
     name: 'Layout',
     hidden: true,
     component: () => import('../views/layout')
-  },
-  // 话题管理
-  {
-    path: '/topic_manage',
-    component: Layout,
-    name: 'topic_manage',
-    hidden: true,
-    adminname: '话题管理',
-    icon: 'el-icon-edit-outline',
-    meta: {
-      title: 'topic_manage'
-    },
-    children: [
-      {
-        adminname: '话题列表',
-        path: 'topic_list',
-        component: () => import("../views/topicManage"),
-        name: 'topic_list',
-        meta: {
-          title: 'topic_list'
-        }
-      }
-    ]
   },
     // 概况管理
     // {
@@ -111,7 +91,7 @@ const routes = [
     path: '/cyl_manage',
     component: Layout,
     name: 'cyl_manage',
-    icon: 'el-icon-user',
+    icon: 'el-icon-collection',
     adminname: '团委管理',
     meta: {
       title: 'cyl_manage'
@@ -142,7 +122,7 @@ const routes = [
     path: '/examination_manage',
     component: Layout,
     name: 'examination_manage',
-    icon: 'el-icon-user',
+    icon: 'el-icon-edit',
     adminname: '高考管理',
     meta: {
       title: 'examination_manage'
@@ -173,7 +153,7 @@ const routes = [
     path: '/library_manage',
     component: Layout,
     name: 'library_manage',
-    icon: 'el-icon-user',
+    icon: 'el-icon-reading',
     adminname: '图书馆管理',
     meta: {
       title: 'library_manage'
@@ -204,7 +184,7 @@ const routes = [
     path: '/news_manage',
     component: Layout,
     name: 'news_manage',
-    icon: 'el-icon-user',
+    icon: 'el-icon-position',
     adminname: '新闻管理',
     meta: {
       title: 'news_manage'
@@ -235,7 +215,7 @@ const routes = [
     path: '/research_manage',
     component: Layout,
     name: 'research_manage',
-    icon: 'el-icon-user',
+    icon: 'el-icon-search',
     adminname: '调研管理',
     meta: {
       title: 'research_manage'
@@ -266,7 +246,7 @@ const routes = [
     path: '/schoolhistory_manage',
     component: Layout,
     name: 'schoolhistory_manage',
-    icon: 'el-icon-user',
+    icon: 'el-icon-collection-tag',
     adminname: '校史管理',
     meta: {
       title: 'schoolhistory_manage'
@@ -297,7 +277,7 @@ const routes = [
     path: '/student_manage',
     component: Layout,
     name: 'student_manage',
-    icon: 'el-icon-user',
+    icon: 'el-icon-user-solid',
     adminname: '学子管理',
     meta: {
       title: 'student_manage'
@@ -328,7 +308,7 @@ const routes = [
     path: '/album_manage',
     component: Layout,
     name: 'album_manage',
-    icon: 'el-icon-user',
+    icon: 'el-icon-film',
     adminname: '相册管理',
     meta: {
       title: 'album_manage'
@@ -411,7 +391,7 @@ const routes = [
     path: '/user_manage',
     component: Layout,
     name: 'user_manage',
-    icon: 'el-icon-user',
+    icon: 'el-icon-s-custom',
     adminname: '用户管理',
     meta: {
       title: 'user_manage'
@@ -458,24 +438,24 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title
-  console.log(to)
-  console.log(from)
-  if(to.fullPath.substring(1,11) == 'user_manage'){
+// router.beforeEach((to, from, next) => {
+//   document.title = to.meta.title
+//   console.log(to)
+//   console.log(from)
+//   if(to.fullPath.substring(1,11) == 'user_manage'){
 
-  }
-  if (to.path!='/') {
-  	if(sessionStorage.getItem('login')){
-  		next(true)
-  	}else{
-      next(false)
-      Message.info("请先登录")
-      this.$router.push('/')
-  	}
-  }else{
-  	next(true)
-  }
-  next(true)
-})
+//   }
+//   if (to.path!='/') {
+//   	if(sessionStorage.getItem('login')){
+//   		next(true)
+//   	}else{
+//       next(false)
+//       Message.info("请先登录")
+//       this.$router.push('/')
+//   	}
+//   }else{
+//   	next(true)
+//   }
+//   next(true)
+// })
 export default router

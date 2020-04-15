@@ -51,7 +51,7 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+        <el-button :disabled="enable" type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -68,6 +68,7 @@ export default {
   name: "home",
   data() {
     return {
+      enable:true,
       // 图片上传地址
       defaultUrl: "",
       ruleForm: {
@@ -192,6 +193,7 @@ export default {
   },
   created() {
     this.defaultUrl = upload.defaultUrl;
+    this.enable = parseInt(sessionStorage.getItem('level'))==2?false:true
   },
   components: {
     VueEditor

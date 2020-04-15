@@ -33,7 +33,7 @@ $gray: #d9d9d9;
         <el-col :offset="13" :span="4">
           <el-button size="small" type="primary" @click.native.stop="restReqdata" plain>重置</el-button>
           <el-button size="small" type="primary" @click.native.stop="searchReqdata" plain>搜索</el-button>
-          <el-button size="small" type="primary" @click.native.stop="newProject" plain>新建</el-button>
+          <el-button size="small" :disabled="enable" type="primary" @click.native.stop="newProject" plain>新建</el-button>
         </el-col>
       </el-row>
     </div>
@@ -65,9 +65,9 @@ $gray: #d9d9d9;
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="230">
         <div class="btns" slot-scope="scope">
-          <el-button size="small" type="primary" @click="handleDetail(scope.row)">详情</el-button>
-          <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button size="small" :disabled="enable" type="primary" @click="handleDetail(scope.row)">详情</el-button>
+          <el-button size="small" :disabled="enable" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button size="small" :disabled="enable" type="danger" @click="handleDelete(scope.row)">删除</el-button>
         </div>
       </el-table-column>
     </el-table>
@@ -154,6 +154,8 @@ export default {
   name: "home",
   data() {
     return {
+      enable:true,
+
       // loading控制表格加载数据
       loading: false,
       // 表格数据
@@ -206,6 +208,9 @@ export default {
         }
       ]
     };
+  },
+  created(){
+    this.enable = parseInt(sessionStorage.getItem('level'))==2?false:true
   },
   methods: {
     switchLevel(level) {
@@ -279,9 +284,9 @@ export default {
       await myAxios.list(this.reqData).then(res => {
         let data = res.data;
         that.tableData = data.list;
-        that.tableData.forEach((element, index, arr) => {
-          arr[index].isshelves = that.switchisshelves(arr[index].isshelves);
-        });
+        // that.tableData.forEach((element, index, arr) => {
+        //   arr[index].isshelves = that.switchisshelves(arr[index].isshelves);
+        // });
         that.total = parseInt(data.pageCount);
         this.loading = false;
       });
@@ -290,7 +295,7 @@ export default {
     // 修改信息
     async update() {
       let that = this;
-      this.ruleForm.isshelves == true ? "true" : "false";
+      // this.ruleForm.isshelves == true ? "true" : "false";
       await myAxios.updaterole(this.ruleForm, this.ruleForm.id).then(res => {
         let data = res.data;
         if (data.success) {

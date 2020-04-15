@@ -1,5 +1,9 @@
 <template>
-  <div class="navbar-main">
+  <div class="navbar-main clearfix">
+    <div class="CollapseBox" @click="isColl">
+      <i v-if="isCollapse" class="el-icon-s-unfold"></i>
+      <i v-else class="el-icon-s-fold"></i>
+    </div>
     <div class="navbar-left">藤县中学官网后台管理系统</div>
     <div class="navbar-right">
       <el-dropdown @command="handleCommand">
@@ -20,10 +24,15 @@ export default {
   name: "navbar",
   data() {
     return {
-      username: ''
+      isCollapse:false,
+      username: ""
     };
   },
   methods: {
+    isColl(){
+      this.isCollapse = !this.isCollapse
+      this.$emit("isCollapse",this.isCollapse)
+    },
     handleCommand(e) {
       console.log(e);
       if (e == "c") {
@@ -32,13 +41,21 @@ export default {
       }
     }
   },
-  created(){
-    this.username = localStorage.getItem("username")
+  created() {
+    this.username = localStorage.getItem("username");
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.CollapseBox{
+  float: left;
+  padding: 10px 0 10px 12px;
+  box-sizing: border-box;
+  i{
+    font-size: 35px;
+  }
+}
 .el-dropdown-link {
   cursor: pointer;
   color: #409eff;
@@ -61,7 +78,7 @@ export default {
   overflow-y: hidden;
   .navbar-left {
     box-sizing: border-box;
-    color: #fff;
+    color: #000;
     float: left;
     font-size: 19px;
     line-height: 50px;
@@ -70,6 +87,7 @@ export default {
   }
   .navbar-right {
     float: right;
+    margin-right: 10px;
     img {
       box-sizing: border-box;
       width: 40px;

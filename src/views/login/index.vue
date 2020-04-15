@@ -1,7 +1,7 @@
 <template>
   <div class="login-main">
     <div class="login-body" :style="bodystyle">
-      <h5 class="login-title">藤县中学后台管理系统</h5>
+      <h5 class="login-title">藤县第一中学后台管理系统</h5>
       <el-form
         size="medium "
         :model="ruleForm"
